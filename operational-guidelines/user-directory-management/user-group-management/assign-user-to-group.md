@@ -6,6 +6,10 @@ Group membership controls application level authorization, in particular access 
 
 For detail-oriented flow illustration, please consult [Sequence Flow](assign-user-to-group.md#sequence-flow).
 
+{% hint style="warning" %}
+**Data Space Participant users** assigned to super user privileges groups, e.g.`authentik Admins` are denied to authenticate in **Marketplace** and **SSI Wallet UI**. For standard user group creation dedicated for admins, please follow [Create Standard User Group](create-admin-user-group/create-standard-user-group.md) and after, proceed with current section steps for user group assignment.
+{% endhint %}
+
 ### Procedure
 
 1. Authenticate in Authentik Dashboard as `akadmin` , Administrator account which was created at [initial setup](../../../infrastructure/user-management-package/deployment-steps/post-installation-steps.md#set-the-authentik-server-administrator-account).
