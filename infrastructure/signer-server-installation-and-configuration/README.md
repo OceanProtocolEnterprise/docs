@@ -107,7 +107,21 @@ A common setup is installing a free SSL/TLS certificate from [Let's Encrypt](htt
 
 For using this mix, a good starting point is [https://certbot.eff.org/instructions](https://certbot.eff.org/instructions).
 
-**Note**: For OpenBao, the certificate files must be added to `<directory>/docker-compose/openbao/certs`. If no certificate files (`tls.crt` and `tls.key`) are provided, OpenBao automatically generates a self-signed certificate using OpenSSL when the OpenBao service starts and the Docker image is created.
+**Note**: For OpenBao, the certificate files must be added to `<directory>/docker-compose/openbao/certs`.&#x20;
+
+{% hint style="info" %}
+For secure communication using the HTTPS protocol, OpenBAO can import SSL certificates. A simpler setup is to generate self-signed certificates with the `opensssl` tool within `<directory>/docker-compose/openbao/certs`.
+
+Command for generating self-signed certificates:
+
+{% code overflow="wrap" lineNumbers="true" %}
+```console
+openssl req -x509 -newkey rsa:4096 -keyout ./openbao/certs/tls.key -out ./openbao/certs/tls.crt -days 365 -nodes \
+  -subj "/CN=openbao" \
+  -addext "subjectAltName=DNS:openbao,DNS:localhost,IP:127.0.0.1"
+```
+{% endcode %}
+{% endhint %}
 
 
 
