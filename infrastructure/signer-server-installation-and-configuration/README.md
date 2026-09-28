@@ -1,5 +1,11 @@
 # Signer Server Installation and Configuration
 
+{% hint style="warning" %}
+**Note:** Signer Server **v1.0.0** supports only the **RS256** signing algorithm for JWT tokens. Signer Server **v1.0.2** supports both **RS256** and **ES256**.
+
+When using Signer Server **v1.0.0** with JWTs issued by Authentik, Authentik must be configured to issue JWTs signed with the **RS256** algorithm. Please follow the guidelines, [Configure Authentik to Use RS256](../../operational-guidelines/user-directory-management/configure-authentik-to-use-rs256.md), to update the Authentik configuration accordingly.
+{% endhint %}
+
 ## Deployment Architecture
 
 The Signer Server is the remote signing service of Ocean Enterprise. It exposes authenticated signing operations to the OE front ends and broadcasts the resulting transactions to the blockchain. It can be deployed in two key custody modes, selected by the environment variable `SIGNER_MODE`:

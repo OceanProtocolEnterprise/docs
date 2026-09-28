@@ -109,5 +109,6 @@
     * [Updating User Password](operational-guidelines/user-directory-management/updating-user-password.md)
     * [User Deactivation](operational-guidelines/user-directory-management/user-deactivation.md)
     * [User Removal](operational-guidelines/user-directory-management/user-removal.md)
+    * [Configure Authentik to Use RS256](operational-guidelines/user-directory-management/configure-authentik-to-use-rs256.md)
   * [Federated Authentication](operational-guidelines/federated-authentication/README.md)
     * [Onboarding Data Space Participant in Data Space Operator Authentik](operational-guidelines/federated-authentication/onboarding-data-space-participant-in-data-space-operator-authentik.md)
