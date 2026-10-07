@@ -31,18 +31,61 @@ The minimum hardware requirements for the server hosting the SSI stack component
 
 Make sure you review the [Compatibility Matrix](compatibility-matrix.md) to ensure that the version is compatible with the other components.
 
-&#x20;Before installing the SSI stack components, determine the network segments where each service will run. Consider the following communication requirements:
+Before installing the SSI stack components, determine the network segments where each service will run. Consider the following communication requirements:
 
 * The verifier-api must be able to reach both the Policy Server and the OPA Server.&#x20;
-* The wallet-api must be able to communicate with the waltid-dev-wallet and the Policy Server Proxy
+* The wallet-api must be able to communicate with the waltid-dev-wallet and the Policy Server Proxy.
+* The OPA server must be configured with HTTPS for secure system communication. Please consult [SSL Certificates Generation & Configuration](ssi-stack-installation-and-configuration.md#opa-server-ssl-certificates-generation-and-configuration) for more details.
 
 Depending on your configuration, you can choose to deploy all SSI components on a single server or deploy individual components on separate servers.&#x20;
+
+### TCP ports
+
+The following TCP ports are used by default by the SSI stack components:&#x20;
+
+* wallet-api: 7001
+* waltid-dev-wallet: 7104
+* verifier-api:7003
+* opa-server: 8181
+
+You can change the ports by editing the `/docker-compose/.env` file.
+
+### OPA Server SSL Certificates Generation & Configuration
+
+Use this guide to generate and configure digital certificates for the Signer Server.
+
+For production:
+
+* use valid CA-issued certificates;
+* include all required hostnames in SANs;
+* use separate private keys where policy requires separation of duties;
+* do not keep certificate private keys in Git;
+* mount certificates from a protected deployment secret mechanism where possible;
+* renew certificates before expiry and safely restart/reload affected services.
+
+A common setup is installing a free SSL/TLS certificate from [Let's Encrypt](https://letsencrypt.org/) using [Certbot](https://certbot.eff.org/).
+
+For using this mix, a good starting point is [https://certbot.eff.org/instructions](https://certbot.eff.org/instructions).
+
+**Note**: For OPA Server, the certificate files must be added to `<directory>/docker-compose/certs` , the directory is the actual [walt.id project](https://github.com/OceanProtocolEnterprise/waltid-identity) after cloning from GitHub.&#x20;
+
+{% hint style="info" %}
+For secure communication using the HTTPS protocol, OPA Server can import SSL certificates. A simpler setup is to generate self-signed certificates with the `opensssl` tool within `<directory>/docker-compose/certs`.
+
+Command for generating self-signed certificates:
+
+{% code overflow="wrap" lineNumbers="true" %}
+```console
+openssl req -x509 -newkey rsa:4096 -keyout ./openbao/certs/tls.key -out ./openbao/certs/tls.crt -days 365 -nodes \
+  -subj "/CN=openbao" \
+  -addext "subjectAltName=DNS:openbao,DNS:localhost,IP:127.0.0.1"
+```
+{% endcode %}
+{% endhint %}
 
 
 
 ## Deployment steps
-
-
 
 ### Option 1 - Deploy the entire SSI stack
 
@@ -70,7 +113,16 @@ git checkout OE
 cd docker-compose
 ```
 
+{% hint style="info" %}
+After generating SSL digital certificates for OPA Server from [pre-installation steps](ssi-stack-installation-and-configuration.md#opa-server-ssl-certificates-generation-and-configuration), enable OPA Server SSL configuration by setting those environment variables for certificate file name `OPA_SERVER_TLS_CERT_FILE` and certificate private key `OPA_SERVER_TLS_KEY_FILE`  in `.env` file located in `docker-compose` directory.
 
+e.g.&#x20;
+
+```dotenv
+OPA_SERVER_TLS_CERT_FILE="tls.pem"
+OPA_SERVER_TLS_KEY_FILE="tls.key"
+```
+{% endhint %}
 
 4. Start the Docker SSI services containers
 
@@ -79,16 +131,6 @@ docker compose up -d
 ```
 
 This command will pull the correct versions of the Docker images used by OE and start the containers. This command will also start other services not used by the OE stack, such as the web portal, the issuer, and the demo wallet.
-
-Note: the OPA server is not automatically started by this command.&#x20;
-
-
-
-5. Start the OPA server.&#x20;
-
-```shellscript
-docker compose up opa-server -d
-```
 
 
 
@@ -125,6 +167,17 @@ git checkout OE
 cd docker-compose
 ```
 
+{% hint style="info" %}
+After generating SSL digital certificates for OPA Server from [pre-installation steps](ssi-stack-installation-and-configuration.md#opa-server-ssl-certificates-generation-and-configuration), enable OPA Server SSL configuration by setting those environment variables for certificate file name `OPA_SERVER_TLS_CERT_FILE` and certificate private key `OPA_SERVER_TLS_KEY_FILE`  in `.env` file located in `docker-compose` directory.
+
+e.g.&#x20;
+
+```dotenv
+OPA_SERVER_TLS_CERT_FILE="tls.pem"
+OPA_SERVER_TLS_KEY_FILE="tls.key"
+```
+{% endhint %}
+
 
 
 4. Start the service. For instance, to start the `wallet-api` service, run the following command
@@ -141,19 +194,6 @@ This command pulls the appropriate version of the component’s Docker image and
 
 * Deploy the SSI stack components behind a reverse proxy responsible for TLS termination and secure request forwarding. The proxy should enforce HTTPS for all external traffic and route decrypted requests to the internal application port.
 * After installation, the components work seamlessly with the rest of the OE stack and require no additional configuration. However, for advanced configuration or ongoing maintenance of the SSI Stack components, consult the official [walt.id documentation](https://docs.walt.id/community-stack/home).&#x20;
-
-
-
-## TCP ports
-
-The following TCP ports are used by default by the SSI stack components:&#x20;
-
-* wallet-api: 7001
-* waltid-dev-wallet: 7104
-* verifier-api:7003
-* opa-server: 8181
-
-You can change the ports by editing the `/docker-compose/.env` file.
 
 
 

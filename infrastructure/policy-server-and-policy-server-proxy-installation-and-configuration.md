@@ -131,7 +131,9 @@ The Policy Server component can run in two modes:&#x20;
 * as an actual Policy Server: implements the Policy Server functionality, as described [here](../developers/oe-software-stack-components.md#policy-server);
 * as a Policy Server Proxy: implements the Policy Server Proxy functionality, as described [here](../developers/oe-software-stack-components.md#policy-server-proxy).
 
-<mark style="color:$info;background-color:$info;">**Note**</mark><mark style="color:$info;background-color:$info;">: While both modes can run within the same component, deploying them on separate servers is recommended to clearly isolate front‑end traffic from back‑end traffic.</mark>
+{% hint style="info" %}
+Note: While both modes can run within the same component, deploying them on separate servers is recommended to clearly isolate front‑end traffic from back‑end traffic.
+{% endhint %}
 
 #### MODE\_PS
 
@@ -345,10 +347,6 @@ The policy server compiles the list of accepted consumers by merging the list re
 
 **Default Value:** `null`
 
-
-
-####
-
 ### Logs
 
 #### ENABLE\_LOGS
@@ -417,7 +415,9 @@ The administrative endpoints of the Policy Server are:
 
 Set the following environment variables to enable HTTPS connections on the Policy Server.&#x20;
 
-<mark style="color:$info;background-color:$info;">**Note**</mark><mark style="color:$info;background-color:$info;">: The Policy Server start commands shown in this guide mount the</mark> <mark style="color:$info;background-color:$info;"></mark><mark style="color:$info;background-color:$info;">`certs`</mark> <mark style="color:$info;background-color:$info;"></mark><mark style="color:$info;background-color:$info;">directory from the repository into the container at</mark> <mark style="color:$info;background-color:$info;"></mark><mark style="color:$info;background-color:$info;">`/etc/ssl/certs/`</mark><mark style="color:$info;background-color:$info;">. To enable HTTPS with minimal setup, place your certificate files in this directory and adjust the environment variable to reference the correct certificate file name.</mark>
+{% hint style="info" %}
+Note: The Policy Server start commands shown in this guide mount the certs directory from the repository into the container at /etc/ssl/certs/. To enable HTTPS with minimal setup, place your certificate files in this directory and adjust the environment variable to reference the correct certificate file name.
+{% endhint %}
 
 #### HTTP\_CERT\_PATH
 

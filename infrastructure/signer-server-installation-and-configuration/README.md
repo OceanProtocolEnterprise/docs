@@ -98,7 +98,7 @@ Examples of widely used DNS management platforms are [Cloudflare](https://develo
 
 ### SSL Certificates Generation & Configuration
 
-Use this guide to generate digital certificates for the Signer Server.
+Use this guide to generate and configure digital certificates for the Signer Server.
 
 For production:
 
