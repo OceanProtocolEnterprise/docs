@@ -76,9 +76,9 @@ Command for generating self-signed certificates:
 
 {% code overflow="wrap" lineNumbers="true" %}
 ```console
-openssl req -x509 -newkey rsa:4096 -keyout ./openbao/certs/tls.key -out ./openbao/certs/tls.crt -days 365 -nodes \
-  -subj "/CN=openbao" \
-  -addext "subjectAltName=DNS:openbao,DNS:localhost,IP:127.0.0.1"
+openssl req -x509 -newkey rsa:4096 -keyout ./certs/tls.key -out ./certs/tls.crt -days 365 -nodes \
+  -subj "/CN=opaserver" \
+  -addext "subjectAltName=DNS:opaserver,DNS:localhost,IP:127.0.0.1"
 ```
 {% endcode %}
 {% endhint %}
